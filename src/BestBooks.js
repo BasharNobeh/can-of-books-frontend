@@ -37,8 +37,8 @@ class BestBooks extends React.Component {
     /* TODO: render all the books in a Carousel */
 
     return (
-      <>
-        <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+      <div id = "MainDiv">
+        
 
         {this.state.books.length ? (
 <div id="myDiv" style={{width:"600px" }}>
@@ -109,7 +109,7 @@ class BestBooks extends React.Component {
         ) : (
           <h3>The Books Collection Is Empty :(</h3>
         )}
-      </>
+      </div>
     )
   }
 }

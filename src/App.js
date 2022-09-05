@@ -9,6 +9,8 @@ import {
   Route
 } from "react-router-dom";
 
+import Profile from './Profile'
+
 class App extends React.Component {
   render() {
     return (
@@ -21,6 +23,12 @@ class App extends React.Component {
               element={<BestBooks />}
             >
             </Route>
+            <Route 
+              exact path="/Profile"
+              element={<Profile />}
+            >
+            </Route>
+         
             
           </Routes>
           <Footer />

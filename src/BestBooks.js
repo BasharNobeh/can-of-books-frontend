@@ -24,7 +24,7 @@ class BestBooks extends React.Component {
 
   componentDidMount = () =>{
     axios
-    .get(`http://localhost:3001/Books`)
+    .get(`https://myfrontend12.herokuapp.com/Books`)
     .then(result =>{
     
       // if(result.length != 0){
@@ -52,7 +52,7 @@ class BestBooks extends React.Component {
      }
 
     axios
-    .post(`http://localhost:3001/addBook`, obj)
+    .post(`https://myfrontend12.herokuapp.com/addBook`, obj)
     .then(result =>{
       
       this.setState({
@@ -70,7 +70,7 @@ class BestBooks extends React.Component {
    deleteBook= (id) => {
     console.log(id);
     axios
-    .delete(`http://localhost:3001/deleteBook/${id}`) //http://localhost:3001/deleteBook?id=${id}
+    .delete(`https://myfrontend12.herokuapp.com/deleteBook/${id}`) //http://localhost:3001/deleteBook?id=${id}
     .then(result =>{
       
       this.setState({
@@ -185,6 +185,7 @@ handleClose = ()=>{
           <div id="myDiv" style={{ width: "800px" }}>
             <Carousel fade>
               {this.state.books.map((item,key) => {
+                console.log(item);
                 key = {key};
               
                 return(
@@ -197,7 +198,7 @@ handleClose = ()=>{
                   <Carousel.Caption>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
-                    <p>{item.status}</p>
+                    <p>{item.states}</p>
                      <Button variant="primary" onClick = { ()=> this.deleteBook(item._id)}>Press Me To Delete</Button>
                   </Carousel.Caption>
                 </Carousel.Item>

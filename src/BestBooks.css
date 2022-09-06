@@ -8,6 +8,9 @@
 
     
 }
+.silderbuttons{
+    margin:10px
+}
 #MainDiv{
     display: flex;
     justify-content: space-evenly;

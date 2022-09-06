@@ -128,7 +128,7 @@ let obj = {
 }
 let id = this.state.currentBook._id;
 axios
-.put(`http://localhost:3001/updateBook/${id}`,obj)
+.put(`https://myfrontend12.herokuapp.com/updateBook/${id}`,obj)
 .then(result => {
 this.setState({
   books : result.data

@@ -133,15 +133,15 @@ axios
 this.setState({
   books : result.data
 
+  
+})
+this.handleCloseForm();
+
+
+
 
 }).catch(err=>{
   console.log(err);
-})
-this.handleClose();
-
-
-
-
 })
 
 

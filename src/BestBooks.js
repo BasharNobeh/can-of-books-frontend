@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Modal from 'react-bootstrap/Modal';
+import UpdateForm from './UpdateForm'
 
 
 
@@ -18,7 +19,9 @@ class BestBooks extends React.Component {
       books: [],
       
       show:false,
-      states:""
+      states:"",
+      UpdateFlag:false,
+      currentBook:{}
     }
   }
 
@@ -50,6 +53,7 @@ class BestBooks extends React.Component {
       description : event.target.BookDes.value,
       states :this.state.states
      }
+     
 
     axios
     .post(`https://myfrontend12.herokuapp.com/addBook`, obj)
@@ -82,6 +86,11 @@ class BestBooks extends React.Component {
       console.log(err);
     })
   }
+
+//=======================================================================
+
+
+
  handleOnChange = (e) => {
 this.setState({
 states:e.target.value
@@ -95,6 +104,48 @@ handleClose = ()=>{
   this.setState({
     show:false,
   })
+}
+handleCloseForm = ()=>{
+  this.setState({
+    UpdateFlag:false,
+  })
+}
+openTheForm = (item) =>{
+  this.setState({
+    UpdateFlag : true,
+    currentBook:item
+   
+  })
+  console.log(item)
+}
+
+updateBook = (event) =>{
+event.preventDefault();
+let obj = {
+  title :event.target.bookTitle.value,
+  description:event.target.bookDes.value,
+  available:event.target.bookStates.value
+}
+let id = this.state.currentBook._id;
+axios
+.put(`http://localhost:3001/updateBook/${id}`,obj)
+.then(result => {
+this.setState({
+  books : result.data
+
+
+}).catch(err=>{
+  console.log(err);
+})
+this.handleClose();
+
+
+
+
+})
+
+
+
 }
 
 
@@ -185,7 +236,7 @@ handleClose = ()=>{
           <div id="myDiv" style={{ width: "800px" }}>
             <Carousel fade>
               {this.state.books.map((item,key) => {
-                console.log(item);
+                
                 key = {key};
               
                 return(
@@ -199,7 +250,8 @@ handleClose = ()=>{
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <p>{item.states}</p>
-                     <Button variant="primary" onClick = { ()=> this.deleteBook(item._id)}>Press Me To Delete</Button>
+                     <Button className = "silderbuttons" variant="primary" onClick = { ()=> this.deleteBook(item._id)}>Press Me To Delete !</Button>
+                     <Button className = "silderbuttons" variant="primary" onClick = { ()=> this.openTheForm(item)}>Press Me to Update ! </Button>
                   </Carousel.Caption>
                 </Carousel.Item>
                 )
@@ -210,6 +262,13 @@ handleClose = ()=>{
         ) : (
           <h3>No Books Found :(</h3>
         )}
+        {this.state.UpdateFlag && <UpdateForm
+        appear={this.state.UpdateFlag}
+        disappear = {this.handleCloseForm}
+        updateBook = {this.updateBook}
+        Book = {this.state.currentBook}
+        
+        />}
       </div>
       </>
     );

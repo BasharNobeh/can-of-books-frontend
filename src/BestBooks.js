@@ -8,7 +8,8 @@ import Card from 'react-bootstrap/Card';
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Modal from 'react-bootstrap/Modal';
-import UpdateForm from './UpdateForm'
+import UpdateForm from './UpdateForm';
+import { withAuth0 } from '@auth0/auth0-react';
 
 
 
@@ -26,8 +27,13 @@ class BestBooks extends React.Component {
   }
 
   componentDidMount = () =>{
+    const { user } = this.props.auth0
+
+
+
+
     axios
-    .get(`https://myfrontend12.herokuapp.com/Books`)
+    .get(`https://myfrontend12.herokuapp.com/Books?name=${user.email}`)
     .then(result =>{
     
       // if(result.length != 0){
@@ -46,12 +52,13 @@ class BestBooks extends React.Component {
     event.preventDefault();
     // const catName = event.target.catName.value;
     // const catBreed = event.target.catBreed.value;
-
+    const { user } = this.props.auth0
     
     const obj = {
       title : event.target.BookTitle.value,
       description : event.target.BookDes.value,
-      states :this.state.states
+      states :this.state.states,
+      name:user.email
      }
      
 
@@ -72,9 +79,11 @@ class BestBooks extends React.Component {
   }
 
    deleteBook= (id) => {
+    const { user } = this.props.auth0
+
     console.log(id);
     axios
-    .delete(`https://myfrontend12.herokuapp.com/deleteBook/${id}`) //http://localhost:3001/deleteBook?id=${id}
+    .delete(`https://myfrontend12.herokuapp.com/deleteBook/${id}?name=${user.email}`) //http://localhost:3001/deleteBook?id=${id}
     .then(result =>{
       
       this.setState({
@@ -121,10 +130,12 @@ openTheForm = (item) =>{
 
 updateBook = (event) =>{
 event.preventDefault();
+const { user } = this.props.auth0
 let obj = {
   title :event.target.bookTitle.value,
   description:event.target.bookDes.value,
-  available:event.target.bookStates.value
+  available:event.target.bookStates.value,
+  name:user.email
 }
 let id = this.state.currentBook._id;
 axios
@@ -250,6 +261,7 @@ this.handleCloseForm();
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <p>{item.states}</p>
+                    <p>{item.name}</p>
                      <Button className = "silderbuttons" variant="primary" onClick = { ()=> this.deleteBook(item._id)}>Press Me To Delete !</Button>
                      <Button className = "silderbuttons" variant="primary" onClick = { ()=> this.openTheForm(item)}>Press Me to Update ! </Button>
                   </Carousel.Caption>
@@ -275,4 +287,4 @@ this.handleCloseForm();
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);

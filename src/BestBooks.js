@@ -33,7 +33,7 @@ class BestBooks extends React.Component {
 
 
     axios
-    .get(`http://localhost:3001/Books?name=${user.email}`)
+    .get(`https://myfrontend12.herokuapp.com/Books?name=${user.email}`)
     .then(result =>{
     
       // if(result.length != 0){
@@ -63,7 +63,7 @@ class BestBooks extends React.Component {
      
 
     axios
-    .post(`http://localhost:3001/addBook`, obj)
+    .post(`https://myfrontend12.herokuapp.com/addBook`, obj)
     .then(result =>{
       
       this.setState({
@@ -83,7 +83,7 @@ class BestBooks extends React.Component {
 
     console.log(id);
     axios
-    .delete(`http://localhost:3001/deleteBook/${id}?name=${user.email}`) //http://localhost:3001/deleteBook?id=${id}
+    .delete(`https://myfrontend12.herokuapp.com/deleteBook/${id}?name=${user.email}`) //http://localhost:3001/deleteBook?id=${id}
     .then(result =>{
       
       this.setState({
@@ -139,7 +139,7 @@ let obj = {
 }
 let id = this.state.currentBook._id;
 axios
-.put(`http://localhost:3001/updateBook/${id}`,obj)
+.put(`https://myfrontend12.herokuapp.com/updateBook/${id}`,obj)
 .then(result => {
 this.setState({
   books : result.data

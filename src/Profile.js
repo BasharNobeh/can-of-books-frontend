@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import "./Profile.css"
 import myPic from "./myPic.jpg"
+import { withAuth0 } from '@auth0/auth0-react';
 
 
 
@@ -10,19 +11,18 @@ import myPic from "./myPic.jpg"
 class Profile extends React.Component{
 render (){
 
-
+  const { user } = this.props.auth0
     return (
 
 
 <div id = "ProfileDiv">
     
 <Card  className = "MyCard">
-      <Card.Img variant="top" src={myPic} class ="myPic" />
+      <Card.Img variant="top" src={user.picture} class ="myPic" />
       <Card.Body>
-        <Card.Title>Bashar Nobeh</Card.Title>
+        <Card.Title>{user.nickname}</Card.Title>
         <Card.Text>
-         A Software developer Who's in love with the thing that he does . 
-         I also have a great background as a full-stack
+       {user.email}
         </Card.Text>
         
       </Card.Body>
@@ -38,4 +38,4 @@ render (){
 }
 
 
-export default Profile;
+export default withAuth0(Profile);
